@@ -1,10 +1,11 @@
 package de.maibornwolff.microservices.device;
 
-import java.util.List;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+
+import java.util.List;
 
 /**
  * Created by Philipp Lamp, MaibornWolff GmbH
@@ -31,20 +32,18 @@ public class DeviceService {
 
 
     /**
-     * forward Event via Rabbit
-     * @param deviceEvent
+     * DeviceEvent anreichern und weiterleiten
      */
     public void processEvent(DeviceEvent deviceEvent) {
+
         /*
         HANDSON - 2. Runde
-        - RoomNumber zum Device ermitteln (this.getRoomNumber(...))
-        - DeviceEvent um RoomNumber anreichern
-        - this.rabbitMQAdapter aufrufen, um DeviceEvent weiter zu senden.
+        - Raum-Nr zum Device ermitteln ( this.getRoomNumber(...); )
+        - DeviceEvent um Raum-Nr anreichern
+        - this.rabbitMQAdapter(...) aufrufen, um DeviceEvent weiter zu senden.
          */
         //
-        String deviceRoomNumber = getRoomNumber(deviceEvent);
-        deviceEvent.setRoomNumber(deviceRoomNumber);
-        rabbitMQAdapter.sendDeviceEvent(deviceEvent);
+
         //
     }
 

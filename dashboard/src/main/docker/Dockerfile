@@ -12,5 +12,5 @@ ENV SERVICE_CHECK_INTERVAL=5s
 # COPY <dateiname> <zielverzeichnis>
 
 ##
-COPY dashboard.jar /
+
 ##

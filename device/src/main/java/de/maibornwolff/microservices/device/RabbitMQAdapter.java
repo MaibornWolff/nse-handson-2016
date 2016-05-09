@@ -17,14 +17,18 @@ public class RabbitMQAdapter {
     @Autowired
     RabbitTemplate rabbitTemplate;
 
+    /**
+     * DeviceEvent an RabbitMQ senden
+     */
     public void sendDeviceEvent(DeviceEvent deviceEvent) {
         LOGGER.info("Sending DeviceEvent: " + deviceEvent);
+
         /*
         HANDSON - 3. Runde
-        - Empfangenen DeviceEvent an RabbitMQ delegieren (via rabbitTemplate.convertAndSend(...))
+        - Empfangenen DeviceEvent an RabbitMQ delegieren ( rabbitTemplate.convertAndSend(...); )
          */
         //
-        rabbitTemplate.convertAndSend(deviceEvent);
+
         //
     }
 }

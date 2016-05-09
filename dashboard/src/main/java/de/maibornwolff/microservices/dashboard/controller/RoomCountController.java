@@ -1,6 +1,7 @@
 package de.maibornwolff.microservices.dashboard.controller;
 
-import java.util.List;
+import de.maibornwolff.microservices.dashboard.model.RoomCount;
+import de.maibornwolff.microservices.dashboard.service.DashboardService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -8,8 +9,8 @@ import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
-import de.maibornwolff.microservices.dashboard.model.RoomCount;
-import de.maibornwolff.microservices.dashboard.service.DashboardService;
+
+import java.util.List;
 
 /**
  * @author Bartosz Boron, MaibornWolff GmbH
@@ -25,9 +26,7 @@ public class RoomCountController {
 
 
     /**
-     * REST-Endpoint that is pulled repeatedly by frontend to update it's view.
-     *
-     * @return
+     * REST-Schnittstelle die wiederholt vom Frontend aufgerufen wird um die angezeigten Daten zu aktualisieren
      */
     @RequestMapping(
             method = RequestMethod.GET,
@@ -36,12 +35,12 @@ public class RoomCountController {
     public List<RoomCount> getRoomCounts() {
         /*
         HANDSON - 3. Runde
-        - RoomCount-Liste von this.dashboardService ermitteln
-            - dashboardService.getRoomCount()
+        - Liste mit allen Raum-Zählern vom 'dashboardService' ermitteln
         - Liste zurückgeben
+        - "return null;" entfernen!
          */
         //
-        return dashboardService.getRoomCounts();
+        return null;
         //
     }
 }

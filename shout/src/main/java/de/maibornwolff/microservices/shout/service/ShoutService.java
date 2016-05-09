@@ -1,18 +1,18 @@
 package de.maibornwolff.microservices.shout.service;
 
-import java.util.ArrayList;
-import java.util.List;
+import com.google.common.annotations.VisibleForTesting;
+import de.maibornwolff.microservices.shout.adapter.AccountServiceAdapter;
+import de.maibornwolff.microservices.shout.event.RoomEvent;
+import de.maibornwolff.microservices.shout.model.Account;
+import de.maibornwolff.microservices.shout.model.RoomAccount;
+import de.maibornwolff.microservices.shout.repository.RoomAccountRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-import com.google.common.annotations.VisibleForTesting;
-import de.maibornwolff.microservices.shout.adapter.AccountServiceAdapter;
-import de.maibornwolff.microservices.shout.event.RoomEvent;
-import de.maibornwolff.microservices.shout.event.RoomEventType;
-import de.maibornwolff.microservices.shout.model.Account;
-import de.maibornwolff.microservices.shout.model.RoomAccount;
-import de.maibornwolff.microservices.shout.repository.RoomAccountRepository;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by Andreas Jochem, MaibornWolff GmbH on 14.04.16.
@@ -30,50 +30,44 @@ public class ShoutService {
 
 
     /**
-     * Will be called by ShoutApplication listenerAdapter when room event is on the queue
-     *
-     * @param roomEvent
+     * Wird aufgerufen wenn neue RaumEreignisse in der Queue vorhanden sind
      */
     public void onRoomEvent(RoomEvent roomEvent) {
         LOGGER.info("Received RoomEvent: " + roomEvent);
         /*
         HANDSON - 1. Runde
-        - Nur, wenn es sich um einen ENTER Event handelt (if RoomEventType.ENTER):
-        - Account zur BadgeNummer (roomEvent.getBadgeNumber()) von AccountService abrufen
-            - accountServiceAdapter.getAccountForBadge(...)
-        - Account und Raum zum Sprechen vorbereiten
-            - prepareTextToSpeech(account, roomEvent)
+        - Verarbeiten, nur wenn es sich um einen ENTER Event handelt ( if RoomEventType.ENTER )
+            - Account zur BadgeNummer (roomEvent.getBadgeNumber()) von AccountService ( this.accountServiceAdapter ) abrufen
+            - Account und Raum zum Sprechen vorbereiten
+            - prepareTextToSpeech(account, roomEvent) aufrufen
         */
         //
-        if (roomEvent.getType() == RoomEventType.ENTER) {
-            Account account = accountServiceAdapter.getAccountForBadge(roomEvent.getBadgeNumber());
-            prepareTextToSpeech(account, roomEvent);
-        }
+
         //
     }
 
-
+    /**
+     * Raum/Account Informationen speichern in der Datenbank
+     */
     private void prepareTextToSpeech(Account account, RoomEvent roomEvent) {
         if (account == null) {
             //Save "Unknown"
             RoomAccount roomAccount = roomAccountRepository.save(
-                    new RoomAccount("UNKNOWN" + roomEvent.getBadgeNumber(),
-                            "Unbekannte", "Person", roomEvent.getRoom().getName()));
+                    new RoomAccount("UNKNOWN" + roomEvent.getBadgeNumber(), "Unbekannte", "Person", roomEvent.getRoom().getName())
+            );
             LOGGER.info("Saved TextToSpeech: " + roomAccount);
-        }else{
+        } else {
             //Save user
             RoomAccount roomAccount = roomAccountRepository.save(
-                    new RoomAccount(account.getBadgeNumber(),
-                            account.getFirstName(), account.getLastName(),
-                            roomEvent.getRoom().getName()));
+                    new RoomAccount(account.getBadgeNumber(), account.getFirstName(), account.getLastName(), roomEvent.getRoom().getName())
+            );
             LOGGER.info("Saved TextToSpeech: " + roomAccount);
         }
     }
 
 
     /**
-     * Returns a list of Strings that are pending to be said by the frontend
-     * @return
+     * Liste der Texte für die Sprachausgabe im Frontend ermitteln
      */
     public List<String> getPendingTextToSpeechItems() {
         List<RoomAccount> roomAccounts = roomAccountRepository.findAll();
@@ -95,13 +89,12 @@ public class ShoutService {
     protected String buildtext2Speech(RoomAccount roomAccount) {
         /*
         HANDSON - 2. Runde
-        - Zu sprechende Textzeile erstellen
-            - "<Vorname> <Nachname> hat den Raum <Raumname> betreten."
-        - Erzeugten String an den Aufrufer zurückgeben (return ...)
+        - Zu sprechende Textzeile erstellen ("<Vorname> <Nachname> hat den Raum <Raumname> betreten.")
+        - Erzeugten String an den Aufrufer zurückgeben ( return ...; )
+        - "return null;" entfernen!
          */
         //
-        return roomAccount.getFirstName() + " " + roomAccount.getLastName()
-                + " hat den Raum " + roomAccount.getRoomName() + " betreten.";
+        return null;
         //
     }
 }
