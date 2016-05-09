@@ -1,0 +1,18 @@
+/*
+While development we start from the main dir, during handson
+the attendees start directly from their respective microservice directory.
+Therefore include subprojects dynamically depending on which dir we are.
+ */
+File currentDir = new File(System.getProperty('user.dir'))
+
+currentDir
+        .listFiles()
+        .findAll {
+    it.isDirectory()
+}
+.each {
+    if (it.list().contains("build.gradle")) {
+        println "Include :${it.name}"
+        include it.name
+    }
+}

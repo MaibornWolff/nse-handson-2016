@@ -1,0 +1,76 @@
+buildscript {
+    repositories {
+        mavenCentral()
+        jcenter()
+    }
+
+    dependencies {
+        classpath 'org.springframework.boot:spring-boot-gradle-plugin:1.3.3.RELEASE'
+        classpath('se.transmode.gradle:gradle-docker:1.2')
+    }
+}
+repositories.addAll(getBuildscript().getRepositories())
+
+apply plugin: 'java'
+apply plugin: 'idea'
+apply plugin: 'spring-boot'
+apply plugin: 'docker'
+
+version = '0.1'
+group = 'de.maibornwolff.microservices'
+
+sourceCompatibility = 1.8
+targetCompatibility = 1.8
+
+idea.module {
+    downloadJavadoc = true
+    downloadSources = true
+}
+
+
+
+jar {
+    baseName = 'badge-reader'
+    version =  null
+}
+
+dependencies {
+    compile 'org.springframework.cloud:spring-cloud-starter-feign:1.0.6.RELEASE'
+    compile 'org.apache.commons:commons-lang3:3.4'
+    compile 'org.json:json:20160212'
+    compile 'com.netflix.feign:feign-slf4j:8.16.0'
+
+    runtime 'net.logstash.logback:logstash-logback-encoder:4.5.1'
+
+    testCompile 'org.springframework.boot:spring-boot-starter-test'
+    testCompile 'junit:junit'
+    testCompile 'org.assertj:assertj-core:3.1.0'
+    testCompile 'org.skyscreamer:jsonassert:1.2.3'
+    testCompile 'org.jglue.fluent-json:fluent-json:2.0.0'
+}
+
+task buildDocker(type: Docker, dependsOn: jar) {
+    group = 'docker'
+    applicationName = jar.baseName
+    setTagVersionToLatest()
+    dockerfile = file('src/main/docker/Dockerfile')
+    setEnvironment('VERSION', project.version)
+    doFirst {
+        copy {
+            from jar
+            into stageDir
+        }
+        copy {
+            from file('src/main/docker/entrypoint.sh')
+            into stageDir
+        }
+    }
+}
+
+buildDocker.dependsOn test
+build.dependsOn buildDocker
+
+task wrapper(type: Wrapper) {
+    gradleVersion = '2.12'
+}
+

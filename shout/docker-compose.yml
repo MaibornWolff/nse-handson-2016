@@ -1,0 +1,13 @@
+shout:
+  image: de.maibornwolff.microservices/shout
+  hostname: ${HOSTNAME}
+  ports:
+    - "8085:8080"
+  devices:
+    - /dev/snd
+  extra_hosts:
+   - "handson-server:${HANDSON_SERVER}"
+  environment:
+   SERVICE_NAME: shout
+  volumes:
+   - /etc/localtime:/etc/localtime:ro

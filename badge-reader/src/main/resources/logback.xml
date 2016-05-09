@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration>
+  <include resource="org/springframework/boot/logging/logback/base.xml"/>
+  <appender name="stash" class="net.logstash.logback.appender.LogstashTcpSocketAppender">
+    <destination>${HANDSON_SERVER}:5140</destination>
+    <encoder class="net.logstash.logback.encoder.LoggingEventCompositeJsonEncoder">
+      <providers>
+        <mdc/>
+        <timestamp />
+        <version />
+        <message />
+        <loggerName />
+        <stackTrace />
+        <arguments />
+        <logLevel />
+        <tags/>
+        <logstashMarkers />
+        <pattern>
+          <pattern>
+            {
+            "host":"${HOSTNAME}",
+            "service":"badge-reader"
+            }
+          </pattern>
+        </pattern>
+      </providers>
+    </encoder>
+  </appender>
+  <root level="info">
+    <appender-ref ref="stash" />
+    <appender-ref ref="CONSOLE" />
+  </root>
+  <logger name="org.springframework" level="INFO"/>
+</configuration>

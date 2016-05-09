@@ -1,0 +1,110 @@
+consul:
+  image: progrium/consul
+  command:
+    - -server -advertise ${HANDSON_SERVER} -bootstrap-expect 1
+  net: "host"
+  privileged: true
+  container_name: consul
+  hostname: ${HOSTNAME}
+  restart: always
+  volumes:
+      - /etc/localtime:/etc/localtime:ro
+
+rabbitmq:
+  image: rabbitmq:3.5.2-management
+  ports:
+    - "5672:5672"
+    - "15672:15672"
+  container_name: rabbitmq
+  hostname: ${HOSTNAME}
+  restart: always
+  volumes:
+    - /etc/localtime:/etc/localtime:ro
+
+mongo:
+  image: mongo
+  ports:
+    - "27017:27017"
+  volumes:
+    - ~/.dockervolumes/mongo:/data/db
+    - /etc/localtime:/etc/localtime:ro
+  container_name: mongodb
+  hostname: ${HOSTNAME}
+  restart: always
+
+registrator:
+  image: gliderlabs/registrator:master
+  net: "host"
+  volumes:
+    - /var/run/docker.sock:/tmp/docker.sock
+    - /etc/localtime:/etc/localtime:ro
+  command: -ip ${SERVICE_IP} consul://${HANDSON_SERVER}:8500
+  restart: always
+
+dashboard-lb:
+  image: de.maibornwolff.microservices/dashboard-lb
+  volumes:
+    - /etc/localtime:/etc/localtime:ro
+  extra_hosts:
+    - "consul:${HANDSON_SERVER}"
+  restart: always
+  ports:
+    - 8091:80
+  stdin_open: true
+  tty: true
+
+device-lb:
+  image: de.maibornwolff.microservices/device-lb
+  volumes:
+    - /etc/localtime:/etc/localtime:ro
+  extra_hosts:
+    - "consul:${HANDSON_SERVER}"
+  restart: always
+  ports:
+    - 8092:80
+  stdin_open: true
+  tty: true
+
+shout-lb:
+  image: de.maibornwolff.microservices/shout-lb
+  volumes:
+    - /etc/localtime:/etc/localtime:ro
+  extra_hosts:
+    - "consul:${HANDSON_SERVER}"
+  restart: always
+  ports:
+    - 8093:80
+  stdin_open: true
+  tty: true
+
+elasticsearch:
+  image: elasticsearch:2.2.1
+  ports:
+    - 9200:9200
+    - 9300:9300
+  restart: always
+  volumes:
+      - /etc/localtime:/etc/localtime:ro
+
+logstash:
+  image: logstash:2.2.1
+  command: [-e, 'input { tcp { codec => "json" port => 5140 } } output { elasticsearch
+      { hosts=>["elasticsearch"] index => "logstash-%{+YYYY.MM.dd}" }}']
+  links:
+    - elasticsearch
+  ports:
+    - 5140:5140
+  restart: always
+  volumes:
+      - /etc/localtime:/etc/localtime:ro
+
+kibana:
+  image: kibana:4.4.1
+  links:
+    - elasticsearch
+  ports:
+    - 5601:5601
+  restart: always
+  volumes:
+      - /etc/localtime:/etc/localtime:ro
+

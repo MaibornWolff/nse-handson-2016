@@ -1,0 +1,11 @@
+device:
+  image: de.maibornwolff.microservices/device
+  hostname: ${HOSTNAME}
+  ports:
+   - "8081:8080"
+  extra_hosts:
+   - "handson-server:${HANDSON_SERVER}"
+  environment:
+   SERVICE_NAME: device
+  volumes:
+   - /etc/localtime:/etc/localtime:ro

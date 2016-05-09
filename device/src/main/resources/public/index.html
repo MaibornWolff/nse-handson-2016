@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html ng-app="deviceApp">
+<head>
+  <meta charset="utf8"/>
+  <title>Device-Service</title>
+  <link rel="stylesheet" href="webjars/bootstrap/3.3.5/css/bootstrap.css"/>
+</head>
+<body>
+
+<script src="webjars/jquery/2.1.4/jquery.min.js"></script>
+<script src="webjars/bootstrap/3.3.5/js/bootstrap.js"></script>
+<script src="webjars/angularjs/1.4.3/angular.js"></script>
+<script src="webjars/angularjs/1.4.3/angular-resource.js"></script>
+<script src="webjars/angularjs/1.4.3/angular-animate.js"></script>
+<script src="webjars/angularjs/1.4.3/angular-aria.js"></script>
+<script src="js/device.js"></script>
+
+<div id="content" ng-controller="mainController">
+  <h1>Device-Service Backend</h1>
+  <form ng-submit="saveDevices()">
+    <table class="table table-striped">
+      <caption>Zuordnung Device Raum</caption>
+      <thead>
+      <tr>
+        <th>Raum Nummer</th>
+        <th>Device Nummer</th>
+      </tr>
+      </thead>
+      <tr ng-repeat="device in devices">
+        <td>
+          <select ng-model="device.roomNumber">
+            <option ng-repeat="roomNumber in roomNumbers">{{roomNumber}}</option>
+          </select>
+        </td>
+        <td>
+          <select ng-model="device.deviceId">
+            <option ng-repeat="deviceId in deviceIds">{{deviceId}}</option>
+          </select>
+        </td>
+      </tr>
+
+    </table>
+    <input type="submit" value="Speichern"/>
+    <input type="button" value="Refresh" ng-click="loadDevices()" />
+    <input type="button" ng-click="addLine()" value="+" ng-disabled="devices.length >= 4" />
+  </form>
+
+</div>
+
+
+</html>

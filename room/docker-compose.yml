@@ -1,0 +1,11 @@
+room:
+  image: de.maibornwolff.microservices/room
+  hostname: ${HOSTNAME}
+  ports:
+   - "8083:8080"
+  extra_hosts:
+   - "handson-server:${HANDSON_SERVER}"
+  environment:
+   SERVICE_NAME: room
+  volumes:
+   - /etc/localtime:/etc/localtime:ro

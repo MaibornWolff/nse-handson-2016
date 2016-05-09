@@ -1,0 +1,20 @@
+// event
+{
+  "type":"ENTER",
+  "room":42,
+  "account":"donald"
+}
+
+// acount
+{
+  "login":"DonaldD",
+  "name":"Donald Duck",
+  "token":"donald"
+}
+
+// room
+{
+  "name":"Konrad Zuse",
+  "location":"MUC",
+  "floor":"2OG"
+}

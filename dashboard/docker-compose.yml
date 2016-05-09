@@ -1,0 +1,11 @@
+dashboard:
+  image: de.maibornwolff.microservices/dashboard
+  hostname: ${HOSTNAME}
+  ports:
+  - "8084:8080"
+  extra_hosts:
+   - "handson-server:${HANDSON_SERVER}"
+  environment:
+   SERVICE_NAME: dashboard
+  volumes:
+   - /etc/localtime:/etc/localtime:ro

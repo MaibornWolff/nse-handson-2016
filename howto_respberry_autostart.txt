@@ -1,0 +1,38 @@
+################# SD Karte klonen (funktioniert nur wenn beide Karten wirklich GLEICH GROSS sind) ######################
+# locate your SD card
+diskutil list
+# clone your sd card
+sudo dd if=/dev/disk2 of=~/Desktop/raspberrypi.dmg
+###### RESTORE ########
+# locate sd card
+diskutil list
+# unmount sd card
+diskutil unmountDisk /dev/disk2
+# format sd card
+sudo newfs_msdos -F 16 /dev/disk2
+# restore from image
+sudo dd if=~/Desktop/raspberrypi.dmg of=/dev/disk2
+
+############## PI aufsetzen ############################################################################################
+#
+wlan einrichten + DE keyboard layout (Menu > Preferences > Keyboard)
+#
+Menu > Preferences > Raspberry Pi Configuration > "raspberry0x"
+#
+Menu > Preferences > Raspberry Pi Configuration > Expand Filesystem
+#
+git clone https://git.stiffi.de/nse-handson/handson.git
+username: bartosz
+password: nse!
+#
+cd handson
+./gradlew :badge-reader:bootrepackage
+#
+cp handson/nse_autostart.sh .
+sudo chmod +x nse_autostart.sh
+#
+sudo nano .bashrc
+[append] ./nse_autostart.sh x (where 'x' = device id)
+#
+sudo nano /home/pi/.config/lxsession/LXDE-pi/autostart
+[append] @lxterminal

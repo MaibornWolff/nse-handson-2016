@@ -1,0 +1,58 @@
+device:
+  image: de.maibornwolff.microservices/device
+  hostname: server
+  ports:
+   - "8181:8080"
+  extra_hosts:
+   - "handson-server:${HANDSON_SERVER}"
+  environment:
+   SERVICE_NAME: device
+  volumes:
+   - /etc/localtime:/etc/localtime:ro
+account:
+  image: de.maibornwolff.microservices/account
+  hostname: server
+  ports:
+   - "8182:8080"
+  extra_hosts:
+   - "handson-server:${HANDSON_SERVER}"
+  environment:
+   SERVICE_NAME: account
+  volumes:
+   - /etc/localtime:/etc/localtime:ro
+   - ./account/accounts.csv:/data/accounts.csv:ro
+room:
+  image: de.maibornwolff.microservices/room
+  hostname: server
+  ports:
+   - "8183:8080"
+  extra_hosts:
+   - "handson-server:${HANDSON_SERVER}"
+  environment:
+   SERVICE_NAME: room
+  volumes:
+   - /etc/localtime:/etc/localtime:ro
+dashboard:
+  image: de.maibornwolff.microservices/dashboard
+  hostname: server
+  ports:
+  - "8184:8080"
+  extra_hosts:
+   - "handson-server:${HANDSON_SERVER}"
+  environment:
+   SERVICE_NAME: dashboard
+  volumes:
+   - /etc/localtime:/etc/localtime:ro
+shout:
+  image: de.maibornwolff.microservices/shout
+  hostname: server
+  ports:
+    - "8185:8080"
+  devices:
+    - /dev/snd
+  extra_hosts:
+   - "handson-server:${HANDSON_SERVER}"
+  environment:
+   SERVICE_NAME: shout
+  volumes:
+   - /etc/localtime:/etc/localtime:ro

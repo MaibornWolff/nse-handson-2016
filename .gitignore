@@ -1,0 +1,13 @@
+# vagrant
+.vagrant
+
+# maven
+*/target
+
+# intellij
+**/*.iml
+**/.idea
+
+# gradle
+**/.gradle
+**/build

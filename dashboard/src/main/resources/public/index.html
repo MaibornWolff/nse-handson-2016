@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html ng-app="dashboardApp">
+<head>
+  <meta charset="utf8"/>
+  <title>Dashboard-Service</title>
+  <link rel="stylesheet" href="webjars/nvd3/1.8.2/nv.d3.css">
+</head>
+<style>
+  .nvd3 text {
+    font: normal 22px Arial;
+  }
+</style>
+<body>
+
+<script src="webjars/angularjs/1.4.3/angular.js"></script>
+<script src="webjars/d3js/3.5.16/d3.js"></script>
+<script src="webjars/nvd3/1.8.2/nv.d3.js"></script> <!-- or use another assembly -->
+<script src="webjars/angular-nvd3/1.0.5/angular-nvd3.js"></script>
+<script src="webjars/angularjs/1.4.3/angular-resource.js"></script>
+<script src="js/dashboard.js"></script>
+
+<div id="content" ng-controller="mainController">
+
+  <div>
+    <div>
+      <h1 style="text-align: center">Room Allocation</h1>
+    </div>
+    <div>
+      <nvd3 options="options" data="data"></nvd3>
+    </div>
+  </div>
+
+</div>
+
+</body>
+
+</html>

@@ -1,0 +1,3 @@
+OS
+Java 8 (falls noch nicht drauf)
+Wlan verbinden?!

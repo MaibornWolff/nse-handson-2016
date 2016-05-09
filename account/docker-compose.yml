@@ -1,0 +1,12 @@
+account:
+  image: de.maibornwolff.microservices/account
+  hostname: ${HOSTNAME}
+  ports:
+   - "8082:8080"
+  extra_hosts:
+   - "handson-server:${HANDSON_SERVER}"
+  environment:
+   SERVICE_NAME: account
+  volumes:
+   - /etc/localtime:/etc/localtime:ro
+   - ./accounts.csv:/data/accounts.csv:ro
