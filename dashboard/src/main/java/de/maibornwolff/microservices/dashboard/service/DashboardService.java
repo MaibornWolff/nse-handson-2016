@@ -1,15 +1,14 @@
 package de.maibornwolff.microservices.dashboard.service;
 
-import de.maibornwolff.microservices.dashboard.event.RoomEvent;
-import de.maibornwolff.microservices.dashboard.model.Room;
-import de.maibornwolff.microservices.dashboard.model.RoomCount;
-import de.maibornwolff.microservices.dashboard.repository.RoomCountRepository;
+import java.util.List;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-
-import java.util.List;
+import de.maibornwolff.microservices.dashboard.event.RoomEvent;
+import de.maibornwolff.microservices.dashboard.model.Room;
+import de.maibornwolff.microservices.dashboard.model.RoomCount;
+import de.maibornwolff.microservices.dashboard.repository.RoomCountRepository;
 
 /**
  * @author Bartosz Boron, MaibornWolff GmbH
@@ -31,7 +30,8 @@ public class DashboardService {
         /*
         HANDSON - 1. Runde
         - Validiere Raum-Ereignis (es muss einen Raum enthalten)
-            - Wenn Raum vorhanden (roomEvent.getRoom() != null) -> Speichere 'roomEvent' im Repository ( this.saveRoomEvent(...); )
+            - Wenn Raum vorhanden (roomEvent.getRoom() != null und roomEvent.getBadgeNumber() != null und roomEvent.getType() != null)
+                    -> Speichere 'roomEvent' im Repository ( this.saveRoomEvent(...); )
             - Wenn Raum nicht vorhanden -> Error loggen ( LOGGER.error(...); )
          */
         //
