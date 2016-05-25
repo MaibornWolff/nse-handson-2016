@@ -21,9 +21,9 @@ Menu > Preferences > Raspberry Pi Configuration > "raspberry0x"
 #
 Menu > Preferences > Raspberry Pi Configuration > Expand Filesystem
 #
-git clone https://git.stiffi.de/nse-handson/handson.git
-username: bartosz
-password: nse!
+git clone https://github.com/MaibornWolff/nse-handson-2016
+username eingeben
+password eingeben
 #
 cd handson
 ./gradlew :badge-reader:bootrepackage
