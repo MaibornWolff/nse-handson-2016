@@ -142,10 +142,13 @@ Vagrant.configure(2) do |config|
         SHELL
       end
 
+      # Copy MWEA docker certificate
+      config.vm.provision "shell", path: "bin/addCert.sh"
+
       # To have the cluster running initially, start the apps on the nodes
       host.vm.provision "shell", run: "always", inline: <<-SHELL
         docker images --quiet --filter=dangling=true | xargs --no-run-if-empty docker rmi
-        su - vagrant -c "cd /vagrant && ./gradlew build && docker-compose up -d"
+        su - vagrant -c "cd /vagrant && ./gradlew tasks | grep "glassfish-buildImage" | xargs ./gradlew && docker-compose up -d"
       SHELL
     end
   end
